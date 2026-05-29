@@ -4,6 +4,7 @@ import type { DiscoveredTV } from '../lib/discovery';
 import type { ClientCert } from '../lib/certificates';
 import { GoogleTVRemote, KeyCode } from '../lib/remote';
 import type { KeyCodeValue } from '../lib/remote';
+import { charToKeyCode } from '../lib/proto';
 
 export type ConnectionStatus =
   | 'idle'
@@ -141,3 +142,4 @@ export const useTVStore = create<TVStore>((set, get) => ({
 
 export { KeyCode };
 export type { KeyCodeValue };
+export { charToKeyCode } from '../lib/proto';

@@ -70,17 +70,17 @@ export async function pair(
         try {
           const peerInfo = (socket as any).getPeerCertificate?.();
           if (peerInfo) {
-            // May return { raw: Buffer } (DER) or a PEM string depending on version
             if (typeof peerInfo === 'string') {
               peerCertPem = peerInfo;
             } else if (peerInfo.raw) {
               peerCertPem = derToPem(peerInfo.raw);
             } else if (peerInfo.pemEncoded) {
               peerCertPem = peerInfo.pemEncoded;
+            } else if (peerInfo.data) {
+              peerCertPem = derToPem(Buffer.from(peerInfo.data, 'base64'));
             }
           }
         } catch {
-          // getPeerCertificate not available — secret computation will be skipped
           console.warn('[Pairing] getPeerCertificate not available');
         }
 
@@ -146,7 +146,7 @@ export async function pair(
 
             if (!peerCertPem) {
               throw new Error(
-                'Could not get TV certificate. Please update react-native-tcp-socket or add a native module.',
+                'Could not read TV certificate.\n\nOn your TV go to:\nSettings → Device Preferences → About → Send diagnostic info\n\nOr enable: Settings → Apps → See all apps → Android TV Remote Service → Enable',
               );
             }
 

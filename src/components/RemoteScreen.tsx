@@ -173,8 +173,8 @@ export default function RemoteScreen() {
             />
           </Animated.View>
 
-          {/* Row 4: Search · Assist */}
-          <Animated.View entering={FadeInDown.delay(250)} style={[styles.row, { gap: 16 }]}>
+          {/* Row 4: Search · Assist · Keyboard */}
+          <Animated.View entering={FadeInDown.delay(250)} style={[styles.row, { gap: 10 }]}>
             <RemoteButton
               keyCode={KeyCode.SEARCH}
               icon={<Ionicons name="search-outline" size={20} color="#A0A0A0" />}
@@ -189,6 +189,13 @@ export default function RemoteScreen() {
               shape="pill"
               style={{ flex: 1 }}
             />
+            {/* Open on-screen keyboard */}
+            <Pressable
+              onPress={() => router.push('/keyboard')}
+              style={[styles.navShortcut, { flex: 1 }]}
+            >
+              <Ionicons name="keypad-outline" size={20} color="#A0A0A0" />
+            </Pressable>
           </Animated.View>
 
           {/* Row 5: Number pad */}
@@ -223,6 +230,26 @@ export default function RemoteScreen() {
           </Animated.View>
         </ScrollView>
       )}
+
+      {/* ── Bottom Nav Bar ── */}
+      <View style={styles.bottomNav}>
+        <Pressable style={styles.navItem} onPress={() => {}}>
+          <Ionicons name="tv-outline" size={22} color="#1A3FFF" />
+          <Text style={[styles.navLabel, { color: '#1A3FFF' }]}>Remote</Text>
+        </Pressable>
+        <Pressable style={styles.navItem} onPress={() => router.push('/keyboard')}>
+          <Ionicons name="keypad-outline" size={22} color="#555" />
+          <Text style={styles.navLabel}>Keyboard</Text>
+        </Pressable>
+        <Pressable style={styles.navItem} onPress={() => router.push('/apps')}>
+          <Ionicons name="apps-outline" size={22} color="#555" />
+          <Text style={styles.navLabel}>Apps</Text>
+        </Pressable>
+        <Pressable style={styles.navItem} onPress={() => router.push('/discover')}>
+          <Ionicons name="add-circle-outline" size={22} color="#555" />
+          <Text style={styles.navLabel}>Add TV</Text>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }
@@ -278,7 +305,7 @@ const styles = StyleSheet.create({
   remote: {
     alignItems: 'center',
     paddingVertical: 16,
-    paddingBottom: 40,
+    paddingBottom: 24,
     gap: 20,
   },
 
@@ -289,6 +316,16 @@ const styles = StyleSheet.create({
     gap: 12,
     width: '100%',
     paddingHorizontal: 24,
+  },
+
+  navShortcut: {
+    height: 56,
+    backgroundColor: '#1C1C1C',
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#2A2A2A',
   },
 
   volGroup: {
@@ -314,4 +351,27 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   numKey: { width: 72 },
+
+  // ── Bottom nav ──
+  bottomNav: {
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderTopColor: '#1A1A1A',
+    backgroundColor: '#0A0A0A',
+    paddingBottom: 8,
+    paddingTop: 6,
+  },
+  navItem: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 6,
+    gap: 3,
+  },
+  navLabel: {
+    color: '#555',
+    fontSize: 10,
+    fontWeight: '600',
+    letterSpacing: 0.3,
+  },
 });

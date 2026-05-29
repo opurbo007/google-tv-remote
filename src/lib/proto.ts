@@ -269,39 +269,86 @@ export function parseRemoteMessage(buf: Buffer): {
 // ─── Android TV Key Codes ────────────────────────────────────────────────────
 
 export const KeyCode = {
+  // System
   HOME: 3,
   BACK: 4,
+  POWER: 26,
+  SETTINGS: 176,
+  TV_INPUT: 178,
+  ASSIST: 219,
+  SEARCH: 84,
+  // D-Pad
   DPAD_UP: 19,
   DPAD_DOWN: 20,
   DPAD_LEFT: 21,
   DPAD_RIGHT: 22,
   DPAD_CENTER: 23,
+  // Volume
   VOLUME_UP: 24,
   VOLUME_DOWN: 25,
-  POWER: 26,
-  SEARCH: 84,
+  MUTE: 91,
+  VOLUME_MUTE: 164,
+  // Media
   MEDIA_PLAY_PAUSE: 85,
   MEDIA_STOP: 86,
   MEDIA_NEXT: 87,
   MEDIA_PREVIOUS: 88,
-  MUTE: 91,
   MEDIA_PLAY: 126,
   MEDIA_PAUSE: 127,
-  VOLUME_MUTE: 164,
-  TV_INPUT: 178,
-  SETTINGS: 176,
-  ASSIST: 219,
-  // Number keys
-  NUM_0: 7,
-  NUM_1: 8,
-  NUM_2: 9,
-  NUM_3: 10,
-  NUM_4: 11,
-  NUM_5: 12,
-  NUM_6: 13,
-  NUM_7: 14,
-  NUM_8: 15,
-  NUM_9: 16,
+  // Numbers
+  NUM_0: 7,  NUM_1: 8,  NUM_2: 9,  NUM_3: 10,
+  NUM_4: 11, NUM_5: 12, NUM_6: 13, NUM_7: 14,
+  NUM_8: 15, NUM_9: 16,
+  // Letters A–Z (Android keycodes 29–54)
+  A: 29, B: 30, C: 31, D: 32, E: 33, F: 34, G: 35,
+  H: 36, I: 37, J: 38, K: 39, L: 40, M: 41, N: 42,
+  O: 43, P: 44, Q: 45, R: 46, S: 47, T: 48, U: 49,
+  V: 50, W: 51, X: 52, Y: 53, Z: 54,
+  // Editing
+  ENTER: 66,
+  BACKSPACE: 67,
+  DEL_FORWARD: 112,
+  SPACE: 62,
+  TAB: 61,
+  // Symbols
+  COMMA: 55,
+  PERIOD: 56,
+  MINUS: 69,
+  EQUALS: 70,
+  SLASH: 76,
+  BACKSLASH: 73,
+  SEMICOLON: 74,
+  APOSTROPHE: 75,
+  AT: 77,
+  GRAVE: 68,
+  LEFT_BRACKET: 71,
+  RIGHT_BRACKET: 72,
 } as const;
 
 export type KeyCodeValue = (typeof KeyCode)[keyof typeof KeyCode];
+
+/** Map a character to its Android keycode. Returns null if unmappable. */
+export function charToKeyCode(char: string): KeyCodeValue | null {
+  const c = char.toUpperCase();
+  if (c in KeyCode) return KeyCode[c as keyof typeof KeyCode] as KeyCodeValue;
+  const map: Record<string, KeyCodeValue> = {
+    ' ': KeyCode.SPACE,
+    '.': KeyCode.PERIOD,
+    ',': KeyCode.COMMA,
+    '-': KeyCode.MINUS,
+    '=': KeyCode.EQUALS,
+    '/': KeyCode.SLASH,
+    '\\': KeyCode.BACKSLASH,
+    ';': KeyCode.SEMICOLON,
+    "'": KeyCode.APOSTROPHE,
+    '@': KeyCode.AT,
+    '`': KeyCode.GRAVE,
+    '[': KeyCode.LEFT_BRACKET,
+    ']': KeyCode.RIGHT_BRACKET,
+    '0': KeyCode.NUM_0, '1': KeyCode.NUM_1, '2': KeyCode.NUM_2,
+    '3': KeyCode.NUM_3, '4': KeyCode.NUM_4, '5': KeyCode.NUM_5,
+    '6': KeyCode.NUM_6, '7': KeyCode.NUM_7, '8': KeyCode.NUM_8,
+    '9': KeyCode.NUM_9,
+  };
+  return map[char] ?? null;
+}

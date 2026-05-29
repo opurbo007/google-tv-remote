@@ -33,8 +33,14 @@ export function startDiscovery(onEvent: (event: DiscoveryListener) => void): { s
   zeroconf.on('error', (err: any) => onEvent({ type: 'error', message: String(err) }));
 
   zeroconf.on('resolved', (service: any) => {
+    // Friendly name is in TXT record field 'n' (e.g. "Vision TV")
+    // Fallback chain: txt.n → txt.fn → service.name → 'Google TV'
+    const txt = service.txt ?? {};
+    const friendlyName =
+      txt.n ?? txt.fn ?? txt.md ?? service.name ?? 'Google TV';
+
     const tv: DiscoveredTV = {
-      name: service.fullName ?? service.name ?? 'Google TV',
+      name: friendlyName,
       host: service.host ?? service.addresses?.[0] ?? '',
       port: service.port ?? 6467,
       addresses: service.addresses ?? [],
