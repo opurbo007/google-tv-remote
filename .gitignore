@@ -64,3 +64,17 @@ buck-out/
 web-build/                            
 web-report/ 
 .expo/
+
+node_modules/
+.expo/
+
+
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+dist/
