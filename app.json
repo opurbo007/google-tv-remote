@@ -16,7 +16,9 @@
       "bundleIdentifier": "com.yourname.tvremote",
       "infoPlist": {
         "NSLocalNetworkUsageDescription": "Used to discover and control Google TV on your local network.",
-        "NSBonjourServices": ["_androidtvremote2._tcp"]
+        "NSBonjourServices": [
+          "_androidtvremote2._tcp"
+        ]
       }
     },
     "android": {
@@ -47,6 +49,14 @@
     "scheme": "tvremote",
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "f4b4e4d8-4906-465e-86fd-e3de25ee839f"
+      }
     }
   }
 }
